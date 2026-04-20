@@ -4,3 +4,6 @@
 Dari dokumentasi Rust, saya memahami bahwa BufReader digunakan sebab membaca langsung dari TcpStream  tidak efisien dimana setiap pembacaan akan memanggil system call. Dengan BufReader, data dibuffer dulu di memori sehingga lebih efisien.
 
 Di fungsi handle_connection, BufReader membaca HTTP request baris per baris via .lines(), dan berhenti saat menemukan baris kosong menggunakan .take_while(|line| !line.is_empty()) karena HTTP memang menggunakan blank line sebagai penanda akhir header. Hasilnya dicetak ke console. Pada tahap ini server belum mengirim response, sehingga browser tidak menampilkan apapun namun request sudah berhasil terbaca.
+
+# Reflection 2
+Di Milestone 2, saya menambahkan kemampuan server untuk benar-benar membalas request dari browser. Sebelumnya server hanya bisa menerima koneksi tanpa mengirim apapun balik. Sekarang, handle_connection membaca file hello.html menggunakan fs::read_to_string(), lalu menyusun HTTP response lengkap yang terdiri dari status line HTTP/1.1 200 OK, header Content-Length yang berisi ukuran konten, dan isi HTML-nya sendiri. Semua itu dikirim ke browser lewat stream.write_all(). Hasilnya, browser sekarang bisa menampilkan halaman HTML dengan benar.
