@@ -7,3 +7,8 @@ Di fungsi handle_connection, BufReader membaca HTTP request baris per baris via 
 
 # Reflection 2
 Di Milestone 2, saya menambahkan kemampuan server untuk benar-benar membalas request dari browser. Sebelumnya server hanya bisa menerima koneksi tanpa mengirim apapun balik. Sekarang, handle_connection membaca file hello.html menggunakan fs::read_to_string(), lalu menyusun HTTP response lengkap yang terdiri dari status line HTTP/1.1 200 OK, header Content-Length yang berisi ukuran konten, dan isi HTML-nya sendiri. Semua itu dikirim ke browser lewat stream.write_all(). Hasilnya, browser sekarang bisa menampilkan halaman HTML dengan benar.
+
+# Reflection 3
+Di Milestone 3, saya belajar bahwa server tidak perlu membaca seluruh HTTP request untuk menentukan response yang tepat tetapi cukup baca baris pertama saja menggunakan .lines().next() karena di situlah method dan path request berada. Dari request_line tersebut, server bisa memutuskan apakah akan mengembalikan hello.html dengan 200 OK atau 404.html dengan 404 NOT FOUND.
+
+Refactoring dengan match juga membuat kode jauh lebih bersih. Sebelumnya logika baca file dan kirim response berulang di tiap kondisi, sekarang bagian tersebut cukup ditulis sekali di luar blok match karena yang berbeda hanyalah status_line dan filename-nya saja.
