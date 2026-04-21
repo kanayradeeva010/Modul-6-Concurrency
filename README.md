@@ -16,4 +16,5 @@ Refactoring dengan match juga membuat kode jauh lebih bersih. Sebelumnya logika 
 # Reflection 4
 Pada Milestone 4, saya mensimulasikan kelemahan single-threaded server dengan menambahkan route /sleep yang membuat server tidur selama 10 detik menggunakan thread::sleep(Duration::from_secs(10)). Ketika dua browser window dibuka bersamaan, satu ke /sleep dan satu ke / window kedua ikut menunggu hingga /sleep selesai diproses. Ini terjadi karena server hanya punya satu thread, sehingga request hanya bisa diproses satu per satu secara berurutan. Hal ini membuktikan bahwa single-threaded server tidak cocok untuk production karena satu request yang lambat bisa memblokir semua request lainnya.
 
-
+# Reflection 5
+Pada Milestone 5, saya mengimplementasikan ThreadPool untuk membuat server menjadi multithreaded. ThreadPool membuat sejumlah worker yang masing-masing berjalan di thread terpisah dan menunggu job melalui channel (mpsc::channel). Ketika ada request masuk, pool.execute() mengirim job ke salah satu worker yang tersedia. Hasilnya, request /sleep dan / bisa diproses secara paralel yang terbukti bahwa window 2 langsung muncul tanpa menunggu window 1 selesai. Saya menarik kesimpulan bahwa ThreadPool efektif menyelesaikan masalah blocking yang ada di single-threaded server sebelumnya.
