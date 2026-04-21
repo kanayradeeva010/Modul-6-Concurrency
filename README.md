@@ -12,3 +12,8 @@ Di Milestone 2, saya menambahkan kemampuan server untuk benar-benar membalas req
 Di Milestone 3, saya belajar bahwa server tidak perlu membaca seluruh HTTP request untuk menentukan response yang tepat tetapi cukup baca baris pertama saja menggunakan .lines().next() karena di situlah method dan path request berada. Dari request_line tersebut, server bisa memutuskan apakah akan mengembalikan hello.html dengan 200 OK atau 404.html dengan 404 NOT FOUND.
 
 Refactoring dengan match juga membuat kode jauh lebih bersih. Sebelumnya logika baca file dan kirim response berulang di tiap kondisi, sekarang bagian tersebut cukup ditulis sekali di luar blok match karena yang berbeda hanyalah status_line dan filename-nya saja.
+
+# Reflection 4
+Pada Milestone 4, saya mensimulasikan kelemahan single-threaded server dengan menambahkan route /sleep yang membuat server tidur selama 10 detik menggunakan thread::sleep(Duration::from_secs(10)). Ketika dua browser window dibuka bersamaan, satu ke /sleep dan satu ke / window kedua ikut menunggu hingga /sleep selesai diproses. Ini terjadi karena server hanya punya satu thread, sehingga request hanya bisa diproses satu per satu secara berurutan. Hal ini membuktikan bahwa single-threaded server tidak cocok untuk production karena satu request yang lambat bisa memblokir semua request lainnya.
+
+
